@@ -4,8 +4,8 @@ const util = require('util');
 const dbConf = mysql.createPool({
     host: 'localhost',
     // port:3306 (optional apabila portnya belum pasti 3306)
-    user: 'ariqr',
-    password: 'Ariq!234',
+    user: process.env.USER,
+    password: process.env.PASSWORD,
     database: 'individual_project'
 })
 
