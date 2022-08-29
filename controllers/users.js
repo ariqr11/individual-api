@@ -218,7 +218,7 @@ module.exports = {
       let resultsUser = await dbQuery(`select * from users u where u.idusers=${req.dataToken.idusers};`)
       if (resultsUser.length > 0) {
         let resultsPost = await dbQuery(`select p.*,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers  where u.idusers=${resultsUser[0].idusers} order by p.date desc; `)
-        let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}"`)
+        let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}" order by p.date desc;`)
         res.status(200).send({
           ...resultsUser[0],
           posts: resultsPost,
@@ -548,7 +548,7 @@ module.exports = {
       let resultsUser = await dbQuery(`select * from users u where u.idusers=${req.dataToken.idusers};`)
       if (resultsUser.length > 0) {
         let resultsPost = await dbQuery(`select p.*,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers  where u.idusers=${resultsUser[0].idusers} order by p.date desc; `)
-        let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}"`)
+        let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}" order by p.date desc;`)
         res.status(200).send({
           ...resultsUser[0],
           posts: resultsPost,
@@ -567,7 +567,7 @@ module.exports = {
         let resultsUser = await dbQuery(`select * from users u where u.email="${req.body.user}" and u.password="${hashPassword(req.body.password)}";`)
         if (resultsUser.length > 0) {
           let resultsPost = await dbQuery(`select p.*,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers  where u.idusers=${resultsUser[0].idusers} order by p.date desc; `)
-          let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}"`)
+          let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}" order by p.date desc;`)
           let token = createToken({ ...resultsUser[0] });
           res.status(200).send({
             ...resultsUser[0],
@@ -585,7 +585,7 @@ module.exports = {
         let resultsUser = await dbQuery(`select * from users u where u.username="${req.body.user}" and u.password="${hashPassword(req.body.password)}";`)
         if (resultsUser.length > 0) {
           let resultsPost = await dbQuery(`select p.*,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers  where u.idusers=${resultsUser[0].idusers} order by p.date desc; `)
-          let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}"`)
+          let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}" order by p.date desc;`)
           let token = createToken({ ...resultsUser[0] });
           res.status(200).send({
             ...resultsUser[0],
@@ -611,7 +611,7 @@ module.exports = {
       let resultsUser = await dbQuery(`select * from users u where u.idusers=${req.dataToken.idusers};`)
       if (resultsUser.length > 0) {
         let resultsPost = await dbQuery(`select p.*,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers  where u.idusers=${resultsUser[0].idusers} order by p.date desc; `)
-        let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}"`)
+        let resultsLike = await dbQuery(`Select p.*,u.username,u.profilepicture,l.idlikes from posting p join likes l on p.idposting=l.post_id join users u on u.idusers = l.user_id where u.idusers="${resultsUser[0].idusers}" order by p.date desc;`)
         let token = createToken({ ...resultsUser[0] });
         res.status(200).send({
           ...resultsUser[0],
