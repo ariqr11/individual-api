@@ -12,5 +12,7 @@ route.delete('/delete', postController.deletePost);
 route.get('/getlike', postController.getLike)
 route.post('/like', postController.likePost);
 route.delete('/unlike', postController.unlikePost);
+route.get('/getComments', postController.getComments);
+route.post('/addComments', postController.addComments);
 
 module.exports = route;

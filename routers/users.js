@@ -13,6 +13,8 @@ route.post('/regis', usersController.register);
 route.post('/login', usersController.login);
 route.get('/verif', readToken, usersController.verif);
 route.get('/resend', readToken, usersController.resend);
+route.get('/reset', usersController.reset);
+route.get('/resetpass', readToken, usersController.resetpass);
 route.get('/keep', readToken, usersController.keepLogin);
 route.patch('/edit', uploadFile, usersController.editData);
 

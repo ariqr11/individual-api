@@ -5,11 +5,17 @@ module.exports = {
     getPost: async (req, res) => {
         console.log(req.query)
         try {
-            if (req.query.id) {
-                let results = await dbQuery(`select p.* from posting p where idposting=${req.query.id} order by idposting desc ;`)
+            if (req.query.id && req.query.limit) {
+                let results = await dbQuery(`select p.*,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers  where idposting=${req.query.id} order by date desc limit ${req.query.limit} ;`)
+                res.status(200).send(results);
+            } else if (req.query.id) {
+                let results = await dbQuery(`select p.* ,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers where idposting=${req.query.id} order by date desc ;`)
+                res.status(200).send(results);
+            } else if (req.query.limit) {
+                let results = await dbQuery(`select p.* ,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers order by date desc limit ${req.query.limit} ;`)
                 res.status(200).send(results);
             } else {
-                let results = await dbQuery(`select p.* from posting p order by idposting desc ;`)
+                let results = await dbQuery(`select p.* ,u.username,u.profilepicture from posting p join users u on p.user_id=u.idusers order by date desc ;`)
                 res.status(200).send(results);
             }
         } catch (error) {
@@ -20,9 +26,8 @@ module.exports = {
     addPost: (req, res) => {
         let dataInput = JSON.parse(req.body.data);
         console.log(req.files)
-
-        dbConf.query(`insert into posting(user_id,username_post,image,caption) 
-            values (${dataInput.user_id},"${dataInput.username_post}","/imgPost/${req.files[0].filename}","${dataInput.caption}");`, // bisa pake .escape untuk mendeteksi tipe data yang dibutuhkan MySQL
+        dbConf.query(`insert into posting(user_id,image,caption) 
+            values (${dataInput.user_id},"/imgPost/${req.files[0].filename}","${dataInput.caption}");`, // bisa pake .escape untuk mendeteksi tipe data yang dibutuhkan MySQL
             (err, results) => {
                 if (err) {
                     console.log('Error query :', err);
@@ -38,7 +43,7 @@ module.exports = {
             })
     },
     editPost: (req, res) => {
-        dbConf.query(`update posting set caption="${req.body.caption}" where idposting=${req.query.id};`,
+        dbConf.query(`update posting set caption="${req.body.caption}", date="${req.body.date}" where idposting=${req.query.id};`,
             (err, results) => {
                 if (err) {
                     console.log('Error query :', err);
@@ -107,5 +112,33 @@ module.exports = {
                     res.status(200).send(results);
                 }
             })
-    }
+    },
+    getComments: (req, res) => {
+        dbConf.query(`select c.*,u.username,u.profilepicture from comments c join users u on c.user_id=u.idusers where post_id=${req.query.id} order by idcomments desc ;`,
+            (err, results) => {
+                if (err) {
+                    console.log('Error query :', err);
+                    res.status(500).send(err);
+                } else {
+                    console.log('Results SQL', results);
+                    res.status(200).send(results);
+                }
+            })
+    },
+    addComments: (req, res) => {
+        dbConf.query(`insert into comments(user_id,post_id,comments) 
+        values (${req.body.user_id},${req.body.post_id},"${req.body.coms}");`, // bisa pake .escape untuk mendeteksi tipe data yang dibutuhkan MySQL
+            (err, results) => {
+                if (err) {
+                    console.log('Error query :', err);
+                    res.status(500).send(err);
+                } else {
+                    console.log('Results SQL', results);
+                    res.status(200).send({
+                        success: true,
+                        message: 'Comments Success'
+                    });
+                }
+            })
+    },
 }
